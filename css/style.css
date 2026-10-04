@@ -177,7 +177,7 @@ select {
   font-family: var(--serif);
   font-weight: 400;
   font-size: clamp(44px, 5vw, 78px); /* clamp(min, preferred, max): grows with the screen width */
-  line-height: .98;
+  line-height: 1.08; /* enough room so the "p" of line 1 doesn't touch the "l" of line 2 */
   letter-spacing: -.035em;
   margin: 0 0 24px;
 }
