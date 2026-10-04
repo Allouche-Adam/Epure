@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Epure</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!--
+  How text works on this page:
+  Elements are written empty here. JavaScript fills them in the chosen language (see js/i18n.js).
+    data-text="key"        -> the element's text
+    data-placeholder="key" -> the placeholder of an input
+    data-aria-label="key"  -> the label read by screen readers
+-->
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="header-bar">
+    <button class="logo" id="home-button" data-aria-label="backHome">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+        <rect width="30" height="30" rx="9" fill="#2b2b2b"/>
+        <circle cx="10.5" cy="15" r="5" fill="#fff"/>
+        <circle cx="10.5" cy="15" r="2" fill="#f76f53"/>
+        <rect x="15" y="13.5" width="10" height="3" fill="#fff"/>
+        <rect x="21" y="16.5" width="2.5" height="4" fill="#fff"/>
+      </svg>
+      <span>Epure</span>
+    </button>
+    <span class="header-local" data-text="headerLocal"></span>
+    <div class="header-end">
+      <a class="feedback-button" id="feedback-link" data-text="feedback" target="_blank" rel="noopener" hidden></a>
+      <select id="language" aria-label="Language">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Hero (home screen only) ===== -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <p class="eyebrow" data-text="heroEyebrow"></p>
+    <h1>
+      <span class="line" data-text="heroTitleLine1"></span>
+      <span class="line italic" data-text="heroTitleLine2"></span>
+    </h1>
+    <p class="hero-text" data-text="heroText"></p>
+    <div class="hero-buttons">
+      <!-- A <label for="file-input"> opens the file picker of that input when clicked -->
+      <label class="dark-button" for="file-input" data-text="chooseFile"></label>
+      <button class="dark-button outline" id="try-sample" data-text="trySample"></button>
+    </div>
+    <small data-text="heroNote"></small>
+  </div>
+  <div class="hero-video" aria-hidden="true">
+    <video id="hero-video" src="assets/hero.mp4" autoplay muted loop playsinline preload="auto"></video>
+  </div>
+</section>
+
+<!-- ===== Main area =====
+     "home-mode" = home screen. app.js removes it once a file is loaded (work mode). -->
+<main class="home-mode">
+
+  <!-- Sidebar (work mode only) -->
+  <aside>
+    <div class="card" id="summary-card" hidden>
+      <h2 data-text="summaryTitle"></h2>
+      <div class="stat"><span data-text="statEntries"></span><b id="stat-all">0</b></div>
+      <div class="stat"><span data-text="statDuplicates"></span><b id="stat-duplicates">0</b></div>
+      <div class="stat"><span data-text="statWeak"></span><b id="stat-weak">0</b></div>
+      <div class="stat"><span data-text="statReused"></span><b id="stat-reused">0</b></div>
+      <div class="stat"><span data-text="statEmpty"></span><b id="stat-empty">0</b></div>
+    </div>
+    <div class="card" id="top-sites-card" hidden>
+      <h2 data-text="topSitesTitle"></h2>
+      <div id="top-sites-list"></div>
+    </div>
+  </aside>
+
+  <section>
+    <p class="sample-banner" id="sample-banner" data-text="sampleBanner" hidden></p>
+
+    <!-- Status message after each action, with an Undo button -->
+    <div class="message" id="message" role="status" hidden>
+      <span id="message-text"></span>
+      <button id="undo-button" data-text="undo"></button>
+    </div>
+
+    <!-- Import card (both modes) -->
+    <div class="card" id="import-card">
+      <h2 data-text="importTitle"></h2>
+      <label class="drop-zone" id="drop-zone">
+        <b data-text="dropTitle"></b>
+        <span class="fake-button" data-text="chooseFile"></span>
+        <input type="file" id="file-input" accept=".csv,text/csv">
+      </label>
+      <p class="small-note" data-text="plainTextWarning"></p>
+      <p class="small-note">
+        <span data-text="noFileAtHand"></span>
+        <button class="inline-link" id="try-sample-link" data-text="trySample"></button>
+      </p>
+    </div>
+
+    <!-- Presentation sections (home mode only) -->
+    <div class="pills home-only">
+      <span data-text="pillOffline"></span>
+      <span data-text="pillNoAccount"></span>
+      <span data-text="pillUndo"></span>
+    </div>
+
+    <div class="ribbon home-only" aria-hidden="true">
+      <div class="ribbon-band"><div class="ribbon-track" id="ribbon-track"></div></div>
+    </div>
+
+    <div class="steps home-only" id="how-it-works">
+      <div class="step"><span class="step-number">1</span><b data-text="step1Title"></b><p data-text="step1Text"></p></div>
+      <div class="step"><span class="step-number">2</span><b data-text="step2Title"></b><p data-text="step2Text"></p></div>
+      <div class="step"><span class="step-number">3</span><b data-text="step3Title"></b><p data-text="step3Text"></p></div>
+    </div>
+
+    <div class="trust home-only">
+      <b data-text="trustTitle"></b>
+      <p data-text="trustText"></p>
+    </div>
+
+    <!-- Workspace (work mode only) -->
+    <div id="workspace" hidden>
+
+      <!-- Shown after an export -->
+      <div class="card feedback-card" id="feedback-card" hidden>
+        <div>
+          <b data-text="feedbackCardTitle"></b>
+          <span class="muted" data-text="feedbackCardText"></span>
+        </div>
+        <div class="button-group">
+          <a class="dark-button" id="feedback-card-link" data-text="giveFeedback" target="_blank" rel="noopener"></a>
+          <button class="secondary" id="feedback-card-close" data-text="close"></button>
+        </div>
+      </div>
+
+      <!-- Clean up tools -->
+      <div class="card">
+        <h2 data-text="cleanUpTitle"></h2>
+
+        <div class="tool">
+          <div><b data-text="removeSiteTitle"></b><span class="muted" data-text="removeSiteText"></span></div>
+          <span></span>
+          <div class="input-row">
+            <input type="text" id="site-input" class="grow" data-placeholder="siteExample" data-aria-label="columnSite">
+            <span class="muted" id="site-match-count"></span>
+            <button id="remove-site" data-text="remove" disabled></button>
+            <!-- data-undo: this small Undo only works right after the matching action -->
+            <button class="secondary" data-undo="site" data-text="undo" disabled></button>
+          </div>
+        </div>
+
+        <div class="tool">
+          <div><b data-text="removeDuplicatesTitle"></b><span class="muted" data-text="removeDuplicatesText"></span></div>
+          <div class="button-group">
+            <button class="secondary" id="remove-duplicates" data-text="remove"></button>
+            <button class="secondary" data-undo="duplicates" data-text="undo" disabled></button>
+          </div>
+        </div>
+
+        <div class="tool">
+          <div><b data-text="removeEmptyTitle"></b><span class="muted" data-text="removeEmptyText"></span></div>
+          <div class="button-group">
+            <button class="secondary" id="remove-empty" data-text="remove"></button>
+            <button class="secondary" data-undo="empty" data-text="undo" disabled></button>
+          </div>
+        </div>
+
+        <!-- One form for both adding and editing (see the "Add / edit" section of app.js) -->
+        <div class="tool" id="entry-form">
+          <div><b id="entry-form-title"></b><span class="muted" data-text="addEntryText"></span></div>
+          <span></span>
+          <div class="input-row">
+            <input type="text" id="entry-site" class="grow" data-placeholder="sitePlaceholder" data-aria-label="columnSite" autocomplete="off">
+            <input type="text" id="entry-username" class="grow" data-placeholder="columnUsername" data-aria-label="columnUsername" autocomplete="off">
+            <input type="text" id="entry-password" class="grow" data-placeholder="columnPassword" data-aria-label="columnPassword" autocomplete="off" spellcheck="false">
+            <button id="entry-save"></button>
+            <button class="secondary" id="entry-cancel" data-text="cancel" hidden></button>
+          </div>
+        </div>
+
+        <div class="tool">
+          <div><b data-text="restoreTitle"></b><span class="muted" data-text="restoreText"></span></div>
+          <button class="secondary" id="restore-original" data-text="restore" disabled></button>
+        </div>
+
+        <div class="tool">
+          <div><b data-text="exportTitle"></b><span class="muted" data-text="exportText"></span></div>
+          <button id="export-csv" data-text="exportButton"></button>
+        </div>
+      </div>
+
+      <!-- Entries table -->
+      <div class="card">
+        <h2 data-text="entriesTitle"></h2>
+        <div class="input-row">
+          <input type="search" id="search" class="grow" data-placeholder="searchPlaceholder" data-aria-label="searchPlaceholder">
+          <button class="secondary" id="remove-selected" disabled></button>
+        </div>
+        <div class="filter-tabs" id="filter-tabs"></div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="select-all" data-aria-label="selectAll"></th>
+                <th data-text="columnSite"></th>
+                <th data-text="columnUsername"></th>
+                <th data-text="columnPassword"></th>
+                <th data-text="columnStatus"></th>
+                <th></th>
+              </tr>
+            </thead>
+            <!-- Rows are generated by renderTable() in app.js -->
+            <tbody id="table-body"></tbody>
+          </table>
+          <div class="empty-state" id="no-entries" data-text="noEntries" hidden></div>
+        </div>
+        <p class="muted table-cap" id="table-cap" hidden></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="background-shapes" aria-hidden="true">
+  <i class="shape-circle"></i>
+  <i class="shape-square"></i>
+  <i class="shape-dot"></i>
+</div>
+
+<!--
+  Plain <script> tags (no "import"), so the page also works when opened by double-click (file://).
+  They all share the same global scope, so order matters: app.js uses functions from the files before it.
+-->
+<script src="js/i18n.js"></script>
+<script src="js/csv.js"></script>
+<script src="js/analysis.js"></script>
+<script src="js/sample-data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

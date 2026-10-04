@@ -1,0 +1,7 @@
+# Never publish password exports
+*.csv
+
+# Editor and system files
+.DS_Store
+Thumbs.db
+.vscode/

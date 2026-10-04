@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Epure - Prototype</title>
+<style>
+:root{--bg:#f2f0e3;--card:#fbfaf5;--ink:#2b2b2b;--mute:#767268;--line:#dfdccf;--acc:#f76f53;--accd:#e55a3d;--pad:#f9f1b5;--rule:#a9c3d3}
+*{box-sizing:border-box}
+body{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font:17px/1.5 Inter,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:10;padding:12px clamp(12px,3vw,24px)}
+.bar{max-width:920px;margin:0 auto;background:rgba(251,250,245,.92);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 8px;display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px}
+.local{margin-left:auto;color:var(--mute);font-size:14px}
+main{max-width:860px;margin:0 auto;padding:clamp(28px,6vw,64px) clamp(12px,3vw,24px) 64px;text-align:center}
+@keyframes up{from{opacity:0;transform:translateY(18px)}}
+h1{font-size:clamp(36px,7.5vw,76px);line-height:1.02;letter-spacing:-.04em;margin:0 0 16px;font-weight:700}
+h1 .l{display:block;animation:up .8s cubic-bezier(.2,.7,.2,1) both}
+.ser{font-family:ui-serif,"Iowan Old Style","Palatino Linotype",Georgia,serif;font-style:italic;font-weight:500;animation-delay:.12s!important}
+.sub{color:var(--mute);font-size:clamp(17px,2.4vw,21px);max-width:620px;margin:0 auto;animation:up .8s .25s both}
+
+.scene{width:min(640px,92vw);margin:96px auto 40px;position:relative;animation:up .9s .4s both}
+.pad{position:relative;background:var(--pad);border-radius:4px 4px 8px 8px;transform:rotate(-2.2deg);padding-top:16px;text-align:left;box-shadow:0 1px 0 #d6cd8e,0 22px 36px -16px rgba(60,50,10,.35)}
+.pad::before{content:"";position:absolute;inset:0 0 auto 0;height:16px;background:#1b1b1b;border-radius:4px 4px 0 0}
+.pad::after{content:"";position:absolute;top:16px;bottom:0;left:56px;width:5px;border-left:1px solid #e7a3a3;border-right:1px solid #e7a3a3}
+.sheet{position:relative;height:306px;background:repeating-linear-gradient(to bottom,transparent 0 33px,var(--rule) 33px 34px)}
+.ln{position:absolute;left:0;right:0;height:34px;padding-left:76px;font:22px/34px "Segoe Print","Bradley Hand","Chalkboard SE","Marker Felt","Comic Sans MS",cursive;white-space:nowrap}
+.tx{display:inline-block}
+.pencil{position:absolute;left:0;top:0;width:210px;height:26px;margin-top:-13px;transform-origin:0 50%;pointer-events:none;filter:drop-shadow(0 6px 4px rgba(0,0,0,.28));z-index:3;will-change:transform}
+.crumb{position:absolute;width:4px;height:3px;border-radius:2px;background:#e58aa0;pointer-events:none;animation:fall .8s ease-in forwards}
+@keyframes fall{to{transform:translate(var(--dx),24px);opacity:0}}
+
+.cta{display:inline-block;background:var(--acc);color:var(--ink);font:inherit;font-weight:600;border:0;border-radius:999px;padding:14px 32px;cursor:pointer;transition:background .15s,transform .15s;animation:up .8s .6s both}
+.cta:hover{background:var(--accd);transform:translateY(-1px)}
+.cta:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:20px;animation:up .8s .7s both}
+.pills span{border:1px solid var(--line);border-radius:999px;padding:6px 18px;font-size:15px;background:var(--card)}
+@media(max-width:520px){.ln{font-size:17px;padding-left:60px}.pad::after{left:44px}.scene{margin-top:84px}.local{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+<div class="logo">
+<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" rx="9" fill="#2b2b2b"/><circle cx="10.5" cy="15" r="5" fill="#fff"/><circle cx="10.5" cy="15" r="2" fill="#f76f53"/><rect x="15" y="13.5" width="10" height="3" fill="#fff"/><rect x="21" y="16.5" width="2.5" height="4" fill="#fff"/></svg>
+<span>Epure</span></div>
+<span class="local">Runs locally. Nothing is sent.</span>
+</div></header>
+
+<main>
+<h1><span class="l">Messy passwords,</span><span class="l ser">erased in seconds.</span></h1>
+<p class="sub">Drop your browser's CSV export. Epure finds duplicates, weak and reused passwords, removes any site you choose, and hands you a clean file. Nothing ever leaves your device.</p>
+
+<div class="scene" aria-hidden="true">
+<div class="pad"><div class="sheet" id="sheet">
+<svg class="pencil" id="pen" viewBox="0 0 210 26">
+<defs><linearGradient id="metal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9e9e9"/><stop offset=".5" stop-color="#9c9c9c"/><stop offset="1" stop-color="#d4d4d4"/></linearGradient></defs>
+<rect x="0" y="2" width="28" height="22" rx="7" fill="#ee8fa3"/>
+<rect x="0" y="16" width="28" height="8" rx="4" fill="#d9738a"/>
+<rect x="28" y="1" width="28" height="24" fill="url(#metal)"/>
+<path d="M36 1v24M43 1v24M50 1v24" stroke="#777" stroke-width="1" opacity=".55"/>
+<rect x="56" y="1" width="116" height="24" fill="#f6a21e"/>
+<rect x="56" y="1" width="116" height="7" fill="#fbc760"/>
+<rect x="56" y="19" width="116" height="6" fill="#d98710"/>
+<polygon points="170,1 170,25 204,13" fill="#e8c79a"/>
+<polygon points="194,9.5 194,16.5 204,13" fill="#3a3a3a"/>
+</svg>
+</div></div>
+</div>
+
+<button class="cta" type="button">Choose a CSV file</button>
+<div class="pills"><span>Works offline</span><span>No account</span><span>Undo any step</span></div>
+</main>
+
+<script>
+const sheet=document.getElementById('sheet'),pen=document.getElementById('pen');
+const DATA=['github.com : marie123','netflix.com : 1233password','shop-online.fr : password','forum-old.net : qwerty','impots.gouv.fr : marie1990'];
+const R0=2,RH=34,D=2100,MOVE=.14,REST=1900,TOTAL=DATA.length*D+REST;
+sheet.insertAdjacentHTML('afterbegin',DATA.map((d,i)=>`<div class="ln" style="top:${(i+R0)*RH}px"><span class="tx">${d}</span></div>`).join(''));
+const clamp=(v,a,b)=>Math.min(b,Math.max(a,v)),ease=k=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+let M=[];
+function measure(){M=[...document.querySelectorAll('.tx')].map((tx,i)=>({tx,x0:tx.offsetLeft,w:tx.offsetWidth,y:(i+R0)*RH+20}))}
+function place(x,y){pen.style.transform=`translate(${x}px,${y}px) rotate(-30deg)`}
+let lastCrumb=0;
+function crumb(x,y){const c=document.createElement('i');c.className='crumb';c.style.left=x+'px';c.style.top=y+'px';c.style.setProperty('--dx',(Math.random()*30-15)+'px');sheet.appendChild(c);setTimeout(()=>c.remove(),850)}
+function frame(now){
+const t=now%TOTAL,n=M.length,end=n*D,W=sheet.offsetWidth;
+M.forEach((m,j)=>{
+ let p=clamp((t-j*D-MOVE*D)/(D*(1-MOVE)),0,1),op=1;
+ if(t>=end){const q=(t-end)/REST;if(q>.5){p=0;op=(q-.5)/.5}else p=1}
+ m.tx.style.clipPath=`inset(0 0 0 ${p*100}%)`;m.tx.style.opacity=op});
+const last=M[n-1],lx=last.x0+last.w,ly=last.y;
+if(t<end){
+ const i=Math.floor(t/D),u=(t-i*D)/D,m=M[i];
+ const from=i?{x:M[i-1].x0+M[i-1].w,y:M[i-1].y}:{x:W+70,y:-80};
+ if(u<MOVE){const k=ease(u/MOVE);place(from.x+(m.x0-from.x)*k,from.y+(m.y-from.y)*k-Math.sin(k*Math.PI)*16)}
+ else{const p=(u-MOVE)/(1-MOVE),x=m.x0+p*m.w+Math.sin(now/60)*9,y=m.y+Math.cos(now/90)*1.6;place(x,y);
+  if(now-lastCrumb>75){lastCrumb=now;crumb(x,y+10)}}
+}else{
+ const k=ease(clamp((t-end)/(REST*.5),0,1));place(lx+(W+70-lx)*k,ly-100*k)}
+requestAnimationFrame(frame)}
+measure();
+addEventListener('resize',measure);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
+if(matchMedia('(prefers-reduced-motion:reduce)').matches){
+ M.forEach((m,j)=>{if(j<2)m.tx.style.clipPath='inset(0 0 0 100%)'});place(M[2].x0,M[2].y)
+}else requestAnimationFrame(frame);
+</script>
+</body>
+</html>

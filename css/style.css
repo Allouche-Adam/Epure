@@ -1,0 +1,873 @@
+/* =========================================================
+   Épure - styles
+   Order: colors > base > header > hero > home page sections
+          > cards and buttons > workspace (tools + table)
+          > responsive (tablet, phone) > reduced motion
+   ========================================================= */
+
+
+/* ---------- Colors and fonts ----------
+   CSS variables: defined once here, reused everywhere with var(--name).
+   Changing a color here changes it on the whole site. */
+:root {
+  --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  --bg: #f2f0e3;          /* page background (warm beige) */
+  --card: #fbfaf5;        /* cards */
+  --ink: #2b2b2b;         /* main text, dark buttons */
+  --muted: #767268;       /* secondary text */
+  --line: #dfdccf;        /* borders */
+  --soft: #ebe8da;        /* hover backgrounds */
+  --accent: #f76f53;      /* coral */
+  --accent-dark: #e55a3d; /* coral on hover */
+}
+
+
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box; /* width includes padding and border, much easier to reason about */
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden; /* the hero video and the ribbon are wider than the screen on purpose */
+  background: var(--bg);
+  color: var(--ink);
+  font: 17px/1.5 Inter, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The "hidden" attribute must always win, even over display:flex rules below */
+[hidden] {
+  display: none !important;
+}
+
+h2 {
+  font-size: 18px;
+  margin: 0 0 12px;
+  font-weight: 650;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+
+/* ---------- Header ----------
+   Sticky: stays at the top of the screen while you scroll. */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 12px clamp(12px, 3vw, 24px);
+}
+
+.header-bar {
+  max-width: 920px;
+  margin: 0 auto;
+  background: rgba(251, 250, 245, .92);
+  backdrop-filter: blur(10px); /* frosted glass effect over the page behind */
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 0;
+  color: var(--ink);
+  padding: 3px 12px 3px 4px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 19px;
+  cursor: pointer;
+}
+.logo:hover { background: var(--soft); }
+.logo svg { transition: transform .3s; }
+.logo:hover svg { transform: rotate(-14deg); }
+
+.header-local {
+  margin-left: auto; /* pushes this and everything after it to the right */
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.header-end {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feedback-button {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink); /* dark text: white is not readable on coral */
+  text-decoration: none;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 6px 14px;
+  transition: background .15s;
+}
+.feedback-button:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+select {
+  font: inherit;
+  font-size: 14px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+
+/* ---------- Hero ----------
+   Two layers stacked in the same box:
+   - layer 0: the eraser video (.hero-video), position:absolute so it does not push the text
+   - layer 1: the text (.hero-content), drawn on top thanks to z-index
+   The video background is already the page beige; a mask fades its edges so no border shows. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: min(88vh, 820px);
+  display: flex;
+  align-items: center;
+  padding: clamp(24px, 5vw, 64px) 0 24px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 24px);
+}
+.hero-content > * {
+  max-width: 560px;
+}
+
+.eyebrow {
+  margin: 0 0 20px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(44px, 5vw, 78px); /* clamp(min, preferred, max): grows with the screen width */
+  line-height: .98;
+  letter-spacing: -.035em;
+  margin: 0 0 24px;
+}
+.hero h1 .line {
+  display: block;
+  white-space: nowrap; /* each half of the title stays on one line on large screens */
+}
+.hero h1 .italic {
+  font-style: italic;
+}
+
+.hero-text {
+  font-size: clamp(17px, 1.5vw, 20px);
+  color: #4a4740;
+  max-width: 440px;
+  margin: 0 0 30px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.hero small {
+  display: block;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.hero-video {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(74vw, 1400px);
+  pointer-events: none; /* clicks and drops go through to the hero */
+}
+.hero-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fills the box without stretching, like a background photo */
+  object-position: 20% 0;
+  animation: fade-in 1.4s .2s both;
+  /* The mask works like a stencil: black = visible, transparent = hidden.
+     A radial gradient makes the video fade out softly toward its edges. */
+  -webkit-mask-image: radial-gradient(ellipse 75% 85% at 60% 35%, #000 50%, transparent 100%);
+          mask-image: radial-gradient(ellipse 75% 85% at 60% 35%, #000 50%, transparent 100%);
+}
+
+/* Dashed outline while a file is dragged over the hero */
+.hero.drag-over::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 2px dashed var(--accent);
+  border-radius: 28px;
+  pointer-events: none;
+}
+
+/* Entrance animations: each hero element slides up, one after the other */
+.hero-content > * { animation: slide-up .8s cubic-bezier(.2, .7, .2, 1) both; }
+.hero h1 { animation-delay: .08s; }
+.hero-text { animation-delay: .18s; }
+.hero-buttons { animation-delay: .28s; }
+.hero small { animation-delay: .36s; }
+
+@keyframes slide-up { from { opacity: 0; transform: translateY(18px); } }
+@keyframes fade-in { from { opacity: 0; transform: translateY(20px); } }
+
+
+/* ---------- Page layout ----------
+   Two modes, switched by the "home-mode" class on <main>:
+   - home mode: one centered column with the import card and the presentation sections
+   - work mode: sidebar (summary, top sites) + workspace */
+main {
+  max-width: 1240px;
+  margin: 16px auto 48px;
+  padding: 0 clamp(12px, 3vw, 24px);
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+main > * {
+  min-width: 0; /* lets the table scroll inside its box instead of stretching the page */
+}
+
+main.home-mode {
+  grid-template-columns: minmax(0, 780px);
+  justify-content: center;
+}
+main.home-mode aside,
+main.home-mode #import-card h2 {
+  display: none;
+}
+
+/* Elements only visible on the home screen */
+.home-only { display: none; }
+main.home-mode .home-only { display: block; }
+main.home-mode .pills { display: flex; }
+main.home-mode .steps { display: grid; }
+
+
+/* ---------- Home page sections ---------- */
+.pills {
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.pills span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 15px;
+  background: var(--card);
+}
+
+/* Tilted dark band with fake password rows scrolling sideways.
+   The track contains the items twice; moving it by -50% loops seamlessly. */
+.ribbon {
+  width: 100vw;
+  margin: 48px 0 40px calc(50% - 50vw); /* breaks out of the centered column to full screen width */
+  overflow: hidden;
+  padding: 28px 0;
+}
+.ribbon-band {
+  background: var(--ink);
+  color: #fff;
+  width: 112vw;
+  margin-left: -6vw;
+  transform: rotate(-2.5deg);
+  padding: 16px 0;
+  overflow: hidden;
+}
+.ribbon-track {
+  display: flex;
+  width: max-content;
+  animation: ribbon-scroll 45s linear infinite;
+}
+.ribbon-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 36px;
+  white-space: nowrap;
+  font-size: 16px;
+}
+.ribbon-item b { font-weight: 600; }
+.ribbon-item span { color: #bdb9a8; }
+.ribbon-tag {
+  font-style: normal;
+  background: var(--accent);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+@keyframes ribbon-scroll { to { transform: translateX(-50%); } }
+
+.steps {
+  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+}
+.step {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px;
+}
+.step-number {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.step b {
+  display: block;
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+.step p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.trust {
+  background: var(--ink);
+  color: #fff;
+  border-radius: 24px;
+  padding: 36px 24px;
+  margin-top: 16px;
+  text-align: center;
+}
+.trust b {
+  font-size: clamp(22px, 4vw, 30px);
+  display: block;
+  margin-bottom: 8px;
+  letter-spacing: -.02em;
+}
+.trust p {
+  margin: 0 auto;
+  max-width: 520px;
+  color: #cfccc0;
+}
+
+/* Soft shapes drifting in the background of the home screen */
+.background-shapes {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.background-shapes i {
+  position: absolute;
+  display: block;
+}
+.shape-circle {
+  width: 380px;
+  height: 380px;
+  border: 2px solid #d8d4c1;
+  border-radius: 50%;
+  left: -120px;
+  top: 32%;
+  animation: drift 14s ease-in-out infinite;
+}
+.shape-square {
+  width: 220px;
+  height: 220px;
+  border: 2px solid #d8d4c1;
+  border-radius: 44px;
+  right: -70px;
+  top: 14%;
+  rotate: 12deg;
+  animation: drift 18s ease-in-out infinite reverse;
+}
+.shape-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  right: 18%;
+  top: 62%;
+  animation: drift 9s ease-in-out infinite;
+}
+main:not(.home-mode) ~ .background-shapes { display: none; }
+@keyframes drift { 50% { translate: 0 -22px; } }
+
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 28px;
+  margin-bottom: 16px;
+}
+.card:last-child { margin-bottom: 0; }
+
+
+/* ---------- Buttons ----------
+   Default <button>: coral. Variants are added with classes. */
+button {
+  font: inherit;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 11px 24px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background .15s;
+}
+button:hover { background: var(--accent-dark); }
+button:disabled {
+  opacity: .4;
+  cursor: default;
+}
+
+/* Outlined secondary button */
+button.secondary {
+  background: transparent;
+  border-color: #bdb9a8;
+}
+button.secondary:hover { background: var(--soft); }
+
+/* Dark pill (hero "Choose a CSV file", feedback card). Works on <button>, <a> and <label>. */
+.dark-button {
+  display: inline-block;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 13px 26px;
+  background: var(--ink);
+  color: #fff;
+  border: 1px solid var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s, transform .15s;
+}
+.dark-button:hover {
+  background: #000;
+  transform: translateY(-1px);
+}
+.dark-button.outline {
+  background: transparent;
+  color: var(--ink);
+  border-color: #bdb9a8;
+}
+.dark-button.outline:hover { background: var(--soft); }
+
+/* Looks like a link, behaves like a button */
+.inline-link {
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+}
+.inline-link:hover {
+  background: none;
+  color: var(--accent-dark);
+}
+
+/* Small underlined button inside the table (Show / Hide / Edit) */
+.text-button {
+  background: none;
+  color: var(--muted);
+  border: 0;
+  padding: 0 6px;
+  font-weight: 500;
+  text-decoration: underline;
+}
+.text-button:hover {
+  background: none;
+  color: var(--ink);
+}
+
+/* Visible keyboard focus, for people who navigate with Tab */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+label:focus-within {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+
+/* ---------- Inputs ---------- */
+input[type=text],
+input[type=search] {
+  font: inherit;
+  border: 1px solid #bdb9a8;
+  background: #fff;
+  border-radius: 999px;
+  padding: 9px 16px;
+  width: 100%;
+}
+input[type=checkbox] { accent-color: var(--ink); }
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.grow {
+  flex: 1;
+  min-width: 180px;
+}
+
+
+/* ---------- Import card ---------- */
+.drop-zone {
+  display: block;
+  border: 2px dashed #c9c5b3;
+  border-radius: 16px;
+  padding: 68px 16px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--bg);
+}
+.drop-zone:hover,
+.drop-zone.drag-over {
+  border-color: var(--accent);
+  background: #fff4ef;
+}
+.drop-zone b {
+  display: block;
+  font-size: 21px;
+  margin-bottom: 4px;
+}
+.drop-zone input { display: none; }
+
+/* Looks like a button but is just text inside the clickable label */
+.fake-button {
+  display: inline-block;
+  margin-top: 14px;
+  background: var(--accent);
+  color: var(--ink);
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 11px 24px;
+}
+.drop-zone:hover .fake-button { background: var(--accent-dark); }
+
+.small-note {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 12px 0 0;
+}
+
+
+/* ---------- Messages and banners ---------- */
+.message {
+  background: var(--ink);
+  color: #fff;
+  border-radius: 16px;
+  padding: 10px 12px 10px 18px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.message button { padding: 4px 16px; }
+
+.sample-banner {
+  background: #fff4ef;
+  border: 1px solid #f6c4b7;
+  border-radius: 16px;
+  padding: 10px 18px;
+  margin: 0 0 16px;
+  font-size: 15px;
+}
+
+.feedback-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-color: var(--accent);
+}
+.feedback-card b { display: block; }
+
+
+/* ---------- Sidebar: summary and top sites ---------- */
+.stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--soft);
+}
+.stat:last-child { border: 0; }
+.stat b { font-variant-numeric: tabular-nums; } /* digits of equal width, numbers line up */
+
+.site-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  color: var(--ink);
+  border: 0;
+  border-radius: 10px;
+  padding: 6px 8px;
+  font-weight: 400;
+  text-align: left;
+}
+.site-row:hover { background: var(--soft); }
+
+
+/* ---------- Clean up tools ----------
+   Each tool is a grid: description on the left, buttons on the right. */
+.tool {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px 16px;
+  align-items: center;
+  padding: 14px 0;
+  border-top: 1px solid var(--soft);
+}
+.tool:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+.tool span { display: block; }
+.tool .input-row { grid-column: 1 / -1; } /* the input row spans the full width */
+
+.button-group {
+  display: flex;
+  gap: 8px;
+}
+
+
+/* ---------- Entries table ---------- */
+.filter-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+.filter-tab {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  font-weight: 500;
+  padding: 4px 14px;
+}
+.filter-tab:hover { background: var(--soft); }
+.filter-tab[aria-pressed=true] {
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--soft);
+  white-space: nowrap;
+}
+th {
+  background: var(--bg);
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 13px;
+}
+tr:last-child td { border: 0; }
+td.password-cell { font-family: ui-monospace, Menlo, Consolas, monospace; }
+
+.status-tag {
+  display: inline-block;
+  background: var(--soft);
+  border-radius: 999px;
+  padding: 0 10px;
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+.empty-state {
+  padding: 28px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.table-cap { margin: 8px 0 0; }
+
+
+/* ---------- Responsive: medium screens ---------- */
+@media (max-width: 1000px) {
+  main { grid-template-columns: 240px minmax(0, 1fr); }
+}
+
+
+/* ---------- Responsive: tablets ---------- */
+@media (max-width: 860px) {
+  /* Hero: text first, video below it instead of behind it */
+  .hero {
+    flex-direction: column;
+    min-height: 0;
+    text-align: center;
+  }
+  .hero-content > * {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero h1 .line { white-space: normal; }
+  .hero-buttons { justify-content: center; }
+  .hero-video {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-top: 8px;
+  }
+  .hero-video video {
+    height: auto;
+    aspect-ratio: 16 / 9;
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 55%, transparent 100%);
+            mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 55%, transparent 100%);
+  }
+
+  /* Sidebar moves under the workspace, as two side-by-side cards */
+  main { grid-template-columns: minmax(0, 1fr); }
+  aside {
+    order: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  aside .card { margin: 0; }
+
+  .header-local { display: none; }
+  .header-bar { padding-right: 8px; }
+  .header-end { margin-left: auto; }
+}
+
+
+/* ---------- Responsive: phones ---------- */
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  aside,
+  .steps { grid-template-columns: 1fr; }
+  input[type=text],
+  input[type=search] { font-size: 16px; } /* 16px stops iPhones from zooming in on focus */
+  button { padding: 11px 18px; }
+  .card {
+    padding: 18px;
+    border-radius: 18px;
+  }
+  .tool { grid-template-columns: 1fr; }
+  .tool button,
+  .input-row > button { width: 100%; }
+  .input-row .grow {
+    min-width: 0;
+    flex-basis: 100%;
+  }
+  .drop-zone { padding: 32px 12px; }
+
+  /* The table turns into cards: one block per entry, with labels taken from data-label */
+  thead { display: none; }
+  table, tbody, tr, td {
+    display: block;
+    width: 100%;
+  }
+  tr {
+    border-bottom: 1px solid var(--line);
+    padding: 10px 14px;
+    position: relative;
+  }
+  tr:last-child { border: 0; }
+  td {
+    border: 0;
+    padding: 3px 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  td[data-label]::before {
+    content: attr(data-label);
+    display: inline-block;
+    min-width: 92px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  td:first-child { /* the checkbox goes to the top right corner of the card */
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    width: auto;
+  }
+  td:first-child input {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+
+/* ---------- Responsive: very small phones ---------- */
+@media (max-width: 380px) {
+  .logo span { display: none; }
+  .message {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+/* ---------- Reduced motion ----------
+   Some people turn off animations in their system settings (motion sickness, focus).
+   We respect that by switching every animation and transition off. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before {
+    transition: none !important;
+    animation: none !important;
+  }
+}
