@@ -19,6 +19,13 @@
   --soft: #ebe8da;        /* hover backgrounds */
   --accent: #f76f53;      /* coral */
   --accent-dark: #e55a3d; /* coral on hover */
+
+  /* The site is light-only. This tells the browser, so its own parts (scrollbar, form controls)
+     stay light even when the visitor's browser or system is in dark mode. */
+  color-scheme: light;
+  /* Thin scrollbar in the site's colors: thumb color, then track color */
+  scrollbar-color: #c9c5b3 var(--bg);
+  scrollbar-width: thin;
 }
 
 
