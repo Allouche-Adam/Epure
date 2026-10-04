@@ -238,7 +238,11 @@ function renderTable() {
     return matchesFilter && matchesSearch;
   });
 
-  byId('table-body').innerHTML = visibleEntries.slice(0, MAX_ROWS_SHOWN).map(tableRowHtml).join('');
+  const shownEntries = visibleEntries.slice(0, MAX_ROWS_SHOWN);
+  byId('table-body').innerHTML = shownEntries.map(tableRowHtml).join('');
+  // The "select all" box is ticked only if every row shown is selected.
+  // Recomputed on each render, so it unticks itself after a removal, an undo or a new file.
+  byId('select-all').checked = shownEntries.length > 0 && shownEntries.every(entry => selectedIds.has(entry.id));
   byId('no-entries').hidden = visibleEntries.length > 0;
   byId('table-cap').hidden = visibleEntries.length <= MAX_ROWS_SHOWN;
   byId('table-cap').textContent = t('tableCap', { shown: MAX_ROWS_SHOWN, total: visibleEntries.length });
