@@ -65,4 +65,4 @@ The owner is still learning the logic: explain how things work when you change t
 5. Optional later: browser extension shortcut that opens the site. No .exe.
 
 ## Ideas for the video / marketing
-- Hero video: eraser scrubbing handwritten passwords off a yellow legal pad. Example fake entries: `netflix : hire-me123`, `gmail : adam123`, `amazon : password1`, `leboncoin : azerty123`, `facebook : qwerty`.
+- Hero video: eraser scrubbing handwritten passwords off a yellow legal pad.
