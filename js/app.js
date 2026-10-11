@@ -66,7 +66,7 @@ function escapeHtml(text) {
 function loadCsv(text, name) {
   const rows = parseCsv(text);
   if (rows.length < 2) { // we need at least a header line and one entry
-    showMessage(t('msgBadFile'));
+    showError(t('msgBadFile'));
     return;
   }
 
@@ -77,7 +77,7 @@ function loadCsv(text, name) {
     password: findColumn(headers, ['password', 'login_password', 'pass']),
   };
   if (!foundColumns.url || !foundColumns.password) {
-    showMessage(t('msgColumnsNotFound', { headers: headers.join(', ') }));
+    showError(t('msgColumnsNotFound', { headers: headers.join(', ') }));
     return;
   }
 
@@ -100,10 +100,35 @@ function loadCsv(text, name) {
   render();
 }
 
+// A real password export is a few KB. 10 MB is far more than enough,
+// and stops a huge file dropped by mistake from freezing the tab.
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB, in bytes
+
 function readFile(file) {
   if (!file) return;
+
+  // Check 1: the name must end with ".csv" (any case: .CSV, .Csv...)
+  if (!file.name.toLowerCase().endsWith('.csv')) {
+    showError(t('msgNotCsv'));
+    return; // stop here: the file is never opened
+  }
+
+  // Check 2: the size, known without opening the file
+  if (file.size > MAX_FILE_SIZE) {
+    showError(t('msgFileTooLarge'));
+    return;
+  }
+
   // file.text() reads the file in the browser. Nothing is uploaded anywhere.
   file.text().then(text => loadCsv(text, file.name));
+}
+
+// The message bar only exists in work mode. On the home screen, a simple popup is used instead,
+// otherwise the error would be invisible.
+function showError(text) {
+  const isHome = document.querySelector('main').classList.contains('home-mode');
+  if (isHome) alert(text);
+  else showMessage(text);
 }
 
 function trySample() {
