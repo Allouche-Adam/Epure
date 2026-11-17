@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <!-- The Epure logo (same drawing as the header): a white key with an orange dot, on a dark rounded square. -->
+  <rect width="30" height="30" rx="9" fill="#2b2b2b"/>
+  <circle cx="10.5" cy="15" r="5" fill="#fff"/>
+  <circle cx="10.5" cy="15" r="2" fill="#f76f53"/>
+  <rect x="15" y="13.5" width="10" height="3" fill="#fff"/>
+  <rect x="21" y="16.5" width="2.5" height="4" fill="#fff"/>
+</svg>
